@@ -1,0 +1,6 @@
+project,country,province_state,project_type,primary_naics,capex_billion,status,status_3cat,cause_category,blocking_jurisdiction,evidence_score,source_type,source_link,source_quote,proposed_year,expected_in_service_year,actual_cancel_delay_year,delay_years_by_2026
+Energy East,Canada,AB-NB,Crude pipeline,486A,15.7,Cancelled,Delayed/cancelled,Regulatory review uncertainty,Canada,3,Company/regulatory source,,,,2013,2018,2017,8
+Northern Gateway,Canada,AB-BC,Crude pipeline,486A,7.9,Cancelled,Delayed/cancelled,Legal/consultation risk,Canada,2,Court/government decision,,,,2006,2019,2016,7
+Teck Frontier,Canada,Alberta,Oil sands,211,20.6,Withdrawn,Delayed/cancelled,Policy/climate uncertainty,Canada,3,CEO letter/company statement,,,,2011,2026,2020,0
+Keystone XL,Cross-border,AB-US,Crude pipeline,486A,8.0,Cancelled,Delayed/cancelled,U.S. permit revocation,United States,3,Company/government source,,,,2008,2021,2021,5
+Pacific NorthWest LNG,Canada,British Columbia,LNG,211,36.0,Cancelled,Delayed/cancelled,Market conditions,Market/global,1,Company statement,,,,2013,2022,2017,4
