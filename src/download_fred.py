@@ -1,0 +1,89 @@
+import os
+from pathlib import Path
+
+import pandas as pd
+import requests
+from dotenv import load_dotenv
+
+
+RAW_DIR = Path("data/raw")
+CLEAN_DIR = Path("data/cleaned")
+
+RAW_DIR.mkdir(parents=True, exist_ok=True)
+CLEAN_DIR.mkdir(parents=True, exist_ok=True)
+
+load_dotenv()
+
+FRED_API_KEY = os.getenv("FRED_API_KEY")
+
+if not FRED_API_KEY:
+    raise ValueError(
+        "FRED_API_KEY not found. Add it to a .env file in the project root."
+    )
+
+
+FRED_SERIES = {
+    # GDP / recession context
+    "us_real_gdp": "GDPC1",
+    "us_industrial_production": "INDPRO",
+
+    # Energy prices
+    "wti_crude_oil_price": "DCOILWTICO",
+    "henry_hub_natural_gas_price": "DHHNGSP",
+
+    # Interest rates / macro controls
+    "federal_funds_rate": "FEDFUNDS",
+    "us_10_year_treasury_rate": "DGS10",
+
+    # Exchange rate
+    "cad_usd_exchange_rate": "DEXCAUS",
+}
+
+
+def download_fred_series(series_name: str, series_id: str) -> pd.DataFrame:
+    url = "https://api.stlouisfed.org/fred/series/observations"
+
+    params = {
+        "series_id": series_id,
+        "api_key": FRED_API_KEY,
+        "file_type": "json",
+        "observation_start": "2005-01-01",
+    }
+
+    response = requests.get(url, params=params, timeout=30)
+    response.raise_for_status()
+
+    data = response.json()["observations"]
+    df = pd.DataFrame(data)
+
+    df["date"] = pd.to_datetime(df["date"])
+    df["value"] = pd.to_numeric(df["value"], errors="coerce")
+
+    df["series_name"] = series_name
+    df["series_id"] = series_id
+
+    return df[["date", "series_name", "series_id", "value"]]
+
+
+def main() -> None:
+    all_series = []
+
+    for series_name, series_id in FRED_SERIES.items():
+        print(f"Downloading {series_name}: {series_id}")
+        df = download_fred_series(series_name, series_id)
+
+        raw_path = RAW_DIR / f"fred_{series_name}_{series_id}.csv"
+        df.to_csv(raw_path, index=False)
+
+        all_series.append(df)
+
+    combined = pd.concat(all_series, ignore_index=True)
+
+    combined_path = CLEAN_DIR / "fred_energy_macro_series.csv"
+    combined.to_csv(combined_path, index=False)
+
+    print(f"Saved combined FRED dataset: {combined_path}")
+
+
+if __name__ == "__main__":
+    main()

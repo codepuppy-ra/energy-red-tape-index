@@ -3,21 +3,15 @@ __pycache__/
 *.pyc
 .ipynb_checkpoints/
 
-# Data
-data/raw/*.zip
-data/raw/*.csv
-data/cleaned/*.csv
-
-# Outputs
-outputs/tables/*.csv
-outputs/figures/*.png
-outputs/dashboard/
-
-# Environment
+# Virtual environments
 .env
 .venv/
 venv/
 
-# System
+# System files
 .DS_Store
 Thumbs.db
+
+# Raw downloaded data
+data/raw/*.zip
+data/raw/*.csv
