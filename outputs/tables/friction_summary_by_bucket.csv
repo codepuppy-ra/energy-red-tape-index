@@ -1,0 +1,5 @@
+regulatory_bucket,projects,total_capex_billion,average_raw_friction_index,average_adjusted_friction_index,friction_weighted_capex_billion
+Canadian regulatory/legal,9,133.7,87.04,59.88,80.06
+Foreign/cross-border,1,8.0,100.0,100.0,8.0
+Market/economic,2,52.0,66.67,22.22,11.56
+Other/unclear,3,52.5,0.0,0.0,0.0
